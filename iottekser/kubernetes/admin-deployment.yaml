@@ -1,0 +1,39 @@
+# admin-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin
+  template:
+    metadata:
+      labels:
+        app: admin
+    spec:
+      containers:
+        - name: admin
+          image: adnandzul/iottekser-admin:latest
+          ports:
+            - containerPort: 4001
+          env:
+            - name: POSTGRES_URI
+              value: postgresql://admin:admin123@postgres-service:5432/tekserdb
+            - name: MONGODB_URI
+              value: mongodb+srv://admin:admin@iotlogs.qb8xkox.mongodb.net/projectLogs?retryWrites=true&w=majority&appName=iotLogs
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-service
+spec:
+  type: NodePort
+  selector:
+    app: admin
+  ports:
+    - port: 4001
+      targetPort: 4001
+      nodePort: 31001

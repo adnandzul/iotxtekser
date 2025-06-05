@@ -1,0 +1,46 @@
+/* index.css */
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fefffa; /* Latar belakang gelap */
+  color: #e0e0e0; /* Warna teks terang */
+}
+
+/* Warna untuk elemen code */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  background-color: #fafafa; /* Latar belakang kode lebih gelap */
+  color: #f8f8f2; /* Warna teks kode terang */
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* Tambahkan aturan untuk link agar terlihat di mode gelap */
+a {
+  color: #61dafb;  /* Biru terang untuk link */
+  text-decoration: none;
+}
+
+a:hover {
+  color: #21a1f1;  /* Biru lebih terang saat hover */
+}
+
+/* Tombol untuk dark mode, misalnya tombol primary */
+button {
+  background-color: #333;  /* Warna latar belakang gelap */
+  color: #ffffff;  /* Warna teks putih */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #555;  /* Efek hover tombol */
+}

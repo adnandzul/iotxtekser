@@ -1,0 +1,62 @@
+version: '3.8'  # Menyesuaikan versi Docker Compose
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "4000:4000"  # Aplikasi Express berjalan di port 4000
+    volumes:
+      - ./server:/app  # Sinkronisasi kode sumber ke container
+    working_dir: /app
+    command: npm start  # Menjalankan index.js
+    environment:
+      - MONGODB_URI=mongodb+srv://admin:admin@iotlogs.qb8xkox.mongodb.net/projectLogs?retryWrites=true&w=majority&appName=iotLogs
+    networks:
+      - iot_network
+
+  admin:
+    build: ./server
+    ports:
+      - "4001:4001"  # Aplikasi admin.js berjalan di port 4001
+    volumes:
+      - ./server:/app
+    working_dir: /app
+    command: npm run admin  # Jalankan admin.js
+    environment:
+      - MONGODB_URI=mongodb+srv://admin:admin@iotlogs.qb8xkox.mongodb.net/projectLogs?retryWrites=true&w=majority&appName=iotLogs
+      - POSTGRES_URI=postgresql://postgres:mysecretpassword@postgres:5432/postgres
+    depends_on:
+      - postgres
+    networks:
+      - iot_network
+
+  postgres:
+    image: postgres:14
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=postgres
+    networks:
+      - iot_network
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"  # Aplikasi React berjalan di port 3000
+    volumes:
+      - ./client:/app
+    working_dir: /app
+    command: npm start
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - server
+    networks:
+      - iot_network
+
+networks:
+  iot_network:
+    driver: bridge

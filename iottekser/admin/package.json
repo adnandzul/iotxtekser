@@ -1,0 +1,21 @@
+{
+  "name": "admin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "admin.js",
+  "scripts": {
+    "start": "node admin.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mongoose": "^8.15.1",
+    "pg": "^8.16.0",
+    "ws": "^8.18.2"
+  }
+}

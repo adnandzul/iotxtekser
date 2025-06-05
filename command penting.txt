@@ -1,0 +1,28 @@
+kubectl apply -f client-deployment.yaml
+kubectl apply -f server-deployment.yaml
+kubectl apply -f ingress.yaml
+kubectl apply -f certbot.yaml
+
+
+docker push adnandzul/tekser2_client:latest
+docker build -t adnandzul/tekser2_client:latest .
+
+
+docker push adnandzul/tekser2_server:latest
+docker build -t adnandzul/tekser2_server:latest .
+
+docker image rmi 
+kubectl get pod
+
+sudo nano /etc/nginx/sites-available/default
+sudo nano /etc/nginx/sites-available/tekser.conf
+sudo nano /etc/nginx/sites-available/client.conf
+
+
+
+kubectl delete deployment --all
+kubectl apply -f .
+
+kubectl --kubeconfig %USERPROFILE%\.kube\config-k3s -n kubernetes-dashboard get secret admin-user-token -o go-template="{{.data.token | base64decode}}"
+
+kubectl --kubeconfig %USERPROFILE%\.kube\config-k3s port-forward -n kubernetes-dashboard service/kubernetes-dashboard 8443:443
