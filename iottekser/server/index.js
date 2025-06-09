@@ -1,11 +1,11 @@
-//Tekser\iottekser\server\index.js
+// File: /Tekser/iottekser/server/index.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://admin:admin@iotlogs.qb8xkox.mongodb.net/projectLogs?retryWrites=true&w=majority&appName=iotLogs'; // Optional fallback
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://admin:admin@iotlogs.qb8xkox.mongodb.net/projectLogs?retryWrites=true&w=majority&appName=iotLogs';
 
 // Middleware
 app.use(cors());
@@ -31,7 +31,11 @@ const logSchema = new mongoose.Schema({
 
 const Log = mongoose.model('Log', logSchema, 'logsdatas');
 
-// API Route
+// =======================
+// API ROUTES
+// =======================
+
+// Paginated logs
 app.get('/api/logs', async (req, res) => {
   const { page = 1, limit = 20 } = req.query;
 
@@ -39,10 +43,10 @@ app.get('/api/logs', async (req, res) => {
     const totalLogs = await Log.countDocuments();
 
     const logs = await Log.find()
-      .sort({ timestamp: -1 })               // Ambil yang terbaru dulu
+      .sort({ timestamp: -1 })
       .skip((page - 1) * limit)
       .limit(Number(limit))
-      .lean();                               // Biar objek lebih ringan
+      .lean();
 
     res.json({
       data: logs,
@@ -56,7 +60,29 @@ app.get('/api/logs', async (req, res) => {
   }
 });
 
-// Health Check (optional)
+// NEW: Get one log per 120 seconds interval
+app.get('/api/logs/all', async (req, res) => {
+  try {
+    const logs = await Log.find().sort({ timestamp: 1 }).lean(); // Urut dari paling lama
+
+    const filteredLogs = [];
+    let lastTimestamp = null;
+
+    logs.forEach(log => {
+      if (!lastTimestamp || (log.timestamp - lastTimestamp >= 720 * 1000)) {
+        filteredLogs.push(log);
+        lastTimestamp = log.timestamp;
+      }
+    });
+
+    res.json({ data: filteredLogs });
+  } catch (error) {
+    console.error('❌ Error fetching interval logs:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+// Health Check
 app.get('/', (req, res) => {
   res.send('Server is running 🚀');
 });

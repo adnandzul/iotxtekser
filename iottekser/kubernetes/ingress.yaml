@@ -28,3 +28,4 @@ spec:
                 name: admin-service
                 port:
                   number: 4001
+  

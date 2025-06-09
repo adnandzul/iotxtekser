@@ -17,7 +17,7 @@ const Charts = () => {
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/logs`)
+    fetch(`${API_BASE_URL}/api/logs/all`)
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data.data)) {

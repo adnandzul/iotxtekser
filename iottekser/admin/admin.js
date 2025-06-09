@@ -1,4 +1,3 @@
-// admin.js
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
@@ -30,7 +29,7 @@ mongoose.connect(MONGODB_URI, {
   console.log('✅ Connected to MongoDB Atlas in admin.js');
 }).catch(err => {
   console.error('❌ MongoDB connection error in admin.js:', err);
-  process.exit(1); // Exit the app if MongoDB fails to connect
+  process.exit(1);
 });
 
 // MongoDB Schema
@@ -48,8 +47,21 @@ const Log = mongoose.model('Log', logSchema, 'logsdatas');
 // =======================
 // Middleware
 // =======================
+const allowedOrigins = [
+  'https://142.93.194.160',
+  'https://142.93.194.160:30080',
+  'https://projectlab.my.id', // Tambahkan domain frontend Anda di sini
+];
+
 app.use(cors({
-  origin: 'http://47.84.53.252:30080',
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
   credentials: false,

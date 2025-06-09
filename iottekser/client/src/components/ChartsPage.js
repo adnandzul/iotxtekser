@@ -21,7 +21,7 @@ const ChartsPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/logs`)
+    fetch(`${API_BASE_URL}/api/logs/all`)
       .then((res) => res.json())
       .then((res) => {
         if (Array.isArray(res.data)) setData(res.data);
@@ -72,7 +72,7 @@ const ChartsPage = () => {
     return (
       <div
         className="d-flex justify-content-center align-items-center"
-        style={{ height: '100vh', backgroundColor: '#1d2b38' }}
+        style={{ height: '100vh', backgroundColor: '#0c1e33' }}
       >
         <motion.div
           animate={{ rotate: 360 }}
@@ -92,7 +92,7 @@ const ChartsPage = () => {
   return (
     <div
       className="container py-4 d-flex flex-column align-items-center gap-4"
-      style={{ minHeight: '90vh', backgroundColor: '#1d2b38' }}
+      style={{ minHeight: '90vh', backgroundColor: '#0c1e33' }}
     >
       {/* Header */}
       <motion.div
