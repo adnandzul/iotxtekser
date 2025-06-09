@@ -11,7 +11,7 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const response = await fetch('https://142.93.194.160:31001/api/admin/login', {
+    const response = await fetch('https://projectlab.my.id/api/admin/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),

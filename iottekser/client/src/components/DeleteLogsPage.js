@@ -14,7 +14,7 @@ const DeleteLogsPage = () => {
     let res, data;
 
     if (modalType === 'older') {
-      res = await fetch('https://142.93.194.160:31001/api/admin/logs/delete-older-than-7-days', { method: 'DELETE' });
+      res = await fetch('https://projectlab.my.id/api/admin/logs/delete-older-than-7-days', { method: 'DELETE' });
       data = await res.json();
       setMessage(data.success ? `✅ Deleted ${data.deletedCount} old logs` : '❌ Failed to delete old logs');
     } else if (modalType === 'range') {
@@ -23,11 +23,11 @@ const DeleteLogsPage = () => {
         setModalType(null);
         return;
       }
-      res = await fetch(`https://142.93.194.160:31001/api/admin/logs/delete-range/${startIndex}/${endIndex}`, { method: 'DELETE' });
+      res = await fetch(`https://projectlab.my.id/api/admin/logs/delete-range/${startIndex}/${endIndex}`, { method: 'DELETE' });
       data = await res.json();
       setMessage(data.success ? `✅ Deleted ${data.deletedCount} logs in range` : '❌ Failed to delete logs in range');
     } else if (modalType === 'all') {
-      res = await fetch('https://142.93.194.160:31001/api/admin/logs/delete-all', { method: 'DELETE' });
+      res = await fetch('https://projectlab.my.id/api/admin/logs/delete-all', { method: 'DELETE' });
       data = await res.json();
       setMessage(data.success ? `✅ Deleted all logs (${data.deletedCount})` : '❌ Failed to delete all logs');
     }

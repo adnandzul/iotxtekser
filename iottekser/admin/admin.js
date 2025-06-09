@@ -49,7 +49,7 @@ const Log = mongoose.model('Log', logSchema, 'logsdatas');
 // =======================
 const allowedOrigins = [
   'https://142.93.194.160',
-  'https://142.93.194.160:30080',
+  'http://142.93.194.160:30080',
   'https://projectlab.my.id', // Tambahkan domain frontend Anda di sini
 ];
 

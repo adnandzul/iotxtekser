@@ -1,11 +1,20 @@
-#ingress.yaml
+# ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: full-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - projectlab.my.id
+      secretName: projectlab-myid-tls
   rules:
-    - http:
+    - host: projectlab.my.id
+      http:
         paths:
           - path: /
             pathType: Prefix
@@ -21,11 +30,10 @@ spec:
                 name: server-service
                 port:
                   number: 4000
-          - path: /admin
+          - path: /api/admin
             pathType: Prefix
             backend:
               service:
                 name: admin-service
                 port:
                   number: 4001
-  
